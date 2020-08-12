@@ -30,28 +30,34 @@ async def on_message(message):
     if message.content.startswith("!블루"):
         await message.channel.send("레드친구 블루예여!")   
         
-    if message.content.startswith("!경고"):
-        author = message.guild.get_member(int(message.content[4:22]))
-        file = openpyxl.load_workbook("경고.xlsx")
+    
+    if message.content.startswith('!경고') :
+        author = message.guild.get_member(int(message.content[9:27]))
+        file = openpyxl.load_workbook('경고.xlsx')
         sheet = file.active
+        why = str(message.content[28:])
         i = 1
-        while True:
-                if sheet["A" + str(i)].value == str(message.author.id):
-                    sheet ["B" + str(i)].value = int(sheet["B" + str(i)].value) + 1
-                    file.save("경고.xlsx")
-                    if sheet ["B" + str(i)].value == 2:
-                        await message.guild.ban(author)
-                        await message.channel.send("경고 2회를 받으셨습니다. 서버에서 추방입니다")
-                    else:
-                        await message.channel.send("경고를 1회를 받으셨습니다")
-                    break
-                if sheet ["A" + str(i)].value == None:
-                    sheet ["A" + str(i)].value == str(on_message.author.id)
-                    sheet ["B" + str(i).value] = 1
-                    file.save("경고.xlsx")
-                    await message.channel.sned("경고 1회를 받으셨습니다.")
-                    break
-                i += 1
+        while True :
+            if sheet["A" + str(i)].value == str(author) :
+                sheet['B' + str(i)].value = int(sheet["B" + str(i)].value) + 1
+                file.save("경고.xlsx")
+                if sheet["B" + str(i)].value == 2:
+                    await message.guild.ban(author)
+                    await message.channel.send(str(author) + " 2회를 받으셨습니다. 서버에서 추방됬니다.")
+                else:
+                    await message.channel.send(str(author) + "경고를 1회 받았습니다")
+                    sheet["c" + str(i)].value = why
+                break
+            if sheet["A" + str(i)].value == None:
+                sheet["A" + str(i)].value = str(author)
+                sheet["B" + str(i)].value = 1
+                sheet["c" + str(i)].value = why
+                file.save("경고.xlsx")
+                await message.channel.send(str(author) + "경고를 1회 받았습니다.")
+                break
+            i += 1    
+
+            
 
 
 access_token = os.environ["BOT_TOKEN"]
