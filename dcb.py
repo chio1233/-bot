@@ -29,31 +29,16 @@ async def on_message(message):
         await message.channel.send("레드 왕자님~~")        
     if message.content.startswith("!블루"):
         await message.channel.send("레드친구 블루예여!")
-    if message.content.startswith('경고 부여') :
-        author = message.guild.get_member(int(message.content[9:27]))
-        file = openpyxl.load_workbook('경고.xlsx')
-        sheet = file.active
-        why = str(message.content[28:])
-        i = 1
-        while True :
-            if sheet["A" + str(i)].value == str(author) :
-                sheet['B' + str(i)].value = int(sheet["B" + str(i)].value) + 1
-                file.save("경고.xlsx")
-                if sheet["B" + str(i)].value == 2:
-                    await message.guild.ban(author)
-                    await message.channel.send(str(author) + "님은 경고 2회누적으로 서버에서 추방되었습니다.")
-                else:
-                    await message.channel.send(str(author) + "님은 경고를 1회 받았습니다")
-                    sheet["c" + str(i)].value = why
-                break
-            if sheet["A" + str(i)].value == None:
-                sheet["A" + str(i)].value = str(author)
-                sheet["B" + str(i)].value = 1
-                sheet["c" + str(i)].value = why
-                file.save("경고.xlsx")
-                await message.channel.send(str(author) + "님은 경고를 1회 받았습니다.")
-                break
-            i += 1
+    
+    if message.content.startswith("!정보"):
+        date = datetime.datetime.utcfromtimestamp(((int(message.author.id) >> 22) + 1420070400000) / 1000)
+        embed = discord.Embed(color=0x00ff00)
+        embed.add_field(name="이름", value=message.author.name, inline=True)
+        embed.add_field(name="서버닉네임", value=message.author.display_name, inline=True)
+        embed.add_field(name="가입일", value=str(date.year) + "년" + str(date.month) + "월" + str(date.day) + "일", inline=True)
+        embed.add_field(name="아이디", value=message.author.id, inline=True)
+        emmbed.set_thumbnail(url=message.author.avatar_url)
+        await client.send_message(message.channel, embed=embed)    
             
 
 
