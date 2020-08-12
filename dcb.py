@@ -1,17 +1,14 @@
+import datetime
 import discord
+import openpyxl
 import os
-
 
 client = discord.Client()
 
-
 @client.event
 async def on_ready():
-    print("login")
-    print(client.user.name)
     print(client.user.id)
-    print("------------------")
-    await client.change_presence(game=discord.Game(name='',type=1))
+    print("ready")
 
 @client.event
 async def on_message(message):
@@ -26,10 +23,12 @@ async def on_message(message):
     if message.content.startswith("!용용"):
         await message.channel.send("나 용용친구 무기!")
     if message.content.startswith("!레드"):
-        await message.channel.send("레드 왕자님~~")        
-    if message.content.startswith("!블루"):
-        await message.channel.send("레드친구 블루예여!")
-    
+        await message.channel.send("레드왕자님~~")
+    if message.content.startswith("!사지"):
+        await message.channel.send("사지왕자님~")
+    if message.content.startswith("!울프"):
+        await message.channel.send("늑대!")
+
     if message.content.startswith("!정보"):
         date = datetime.datetime.utcfromtimestamp(((int(message.author.id) >> 22) + 1420070400000) / 1000)
         embed = discord.Embed(color=0x00ff00)
@@ -38,7 +37,7 @@ async def on_message(message):
         embed.add_field(name="가입일", value=str(date.year) + "년" + str(date.month) + "월" + str(date.day) + "일", inline=True)
         embed.add_field(name="아이디", value=message.author.id, inline=True)
         embed.set_thumbnail(url=message.author.avatar_url)
-        await client.send_message(message.channel, embed=embed)    
+        await client.send_message(message.channel, embed=embed)  
             
 
 
