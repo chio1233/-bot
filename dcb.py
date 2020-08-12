@@ -27,7 +27,7 @@ async def on_message(message):
         await message.channel.send("나 용용친구 무기!")
     if message.content.startswith("!레드"):
         await message.channel.send("레드 왕자님~~")        
-    if message.content.startswith("!레드"):
+    if message.content.startswith("!블루"):
         await message.channel.send("레드친구 블루예여!")   
 
 
